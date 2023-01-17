@@ -106,9 +106,11 @@ def handlePDFAttachment(pdf: IO):
     eastern = timezone("US/Eastern")
     awareDate = eastern.localize(t)
 
-    file_key = awareDate.strftime("%Y-%m-%d-%H-%M")
+    file_key = awareDate.strftime("%Y-%m-%d-%H-%M.pdf")
 
     s3 = boto3.client('s3')
+    pdf.seek(0)
+    
     s3.upload_fileobj(pdf, 'court-dc-no-paper-lists', file_key)
 
 
